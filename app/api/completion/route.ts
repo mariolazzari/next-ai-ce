@@ -1,14 +1,3 @@
-# Next.js AI SDK
-
-## Configuration
-
-```sh
-pnpm add ai @ai-sdk/openai @ai-sdk/react zod 
-```
-
-## Generate text
-
-```ts
 import { generateText } from "ai";
 import { openai } from "@ai-sdk/openai";
 import { NextRequest, NextResponse } from "next/server";
@@ -28,4 +17,3 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error }, { status: 500 });
   }
 }
-```
