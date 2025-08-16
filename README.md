@@ -125,3 +125,13 @@ export default function CompletionStreamPage() {
   );
 }
 ```
+
+## Models and providers
+
+- Text generation: LLMs like ChatGPT (OpenAI), Cluade (Anthropic) and Gemini (Google)
+- Embedding: convert text into vectors
+- Image: production and analysis
+- Multi-modal
+
+## Tokens
+
