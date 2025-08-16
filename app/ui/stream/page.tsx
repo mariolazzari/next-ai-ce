@@ -1,66 +1,3 @@
-# Next.js AI SDK
-
-## Configuration
-
-```sh
-pnpm add ai @ai-sdk/openai @ai-sdk/react zod 
-```
-
-## Generate text
-
-The entire text will be generated at once.
-
-```ts
-import { generateText } from "ai";
-import { openai } from "@ai-sdk/openai";
-import { NextRequest, NextResponse } from "next/server";
-
-export async function POST(req: NextRequest) {
-  try {
-    const { prompt } = await req.json();
-    const { text } = await generateText({
-      model: openai("gpt-4.1-nano"),
-      prompt,
-    });
-
-    return NextResponse.json({ text });
-  } catch (ex) {
-    const error = ex instanceof Error ? ex.message : "Error fetching text";
-
-    return NextResponse.json({ error }, { status: 500 });
-  }
-}
-```
-
-## Streaming text
-
-Starts showing text as soon as the API is generating it.
-
-```ts
-import { streamText } from "ai";
-import { openai } from "@ai-sdk/openai";
-import { NextRequest, NextResponse } from "next/server";
-
-export async function POST(req: NextRequest) {
-  try {
-    const { prompt } = await req.json();
-    const res = streamText({
-      model: openai("gpt-3.5-turbo"),
-      prompt,
-    });
-
-    return res.toUIMessageStreamResponse();
-  } catch (error) {
-    console.error("Error streaming text", error);
-    return NextResponse.json(
-      { error: "Error streaming text" },
-      { status: 500 }
-    );
-  }
-}
-```
-
-```tsx
 "use client";
 
 import { useCompletion } from "@ai-sdk/react";
@@ -124,4 +61,3 @@ export default function CompletionStreamPage() {
     </div>
   );
 }
-```
