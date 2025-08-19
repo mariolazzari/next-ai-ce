@@ -6,9 +6,13 @@ export async function POST(req: NextRequest) {
   try {
     const { prompt } = await req.json();
     const res = streamText({
-      model: openai("gpt-3.5-turbo"),
+      model: openai("gpt-4.1-nano"),
       prompt,
     });
+
+    // Log the initial response
+    const usage = await res.usage;
+    console.info("Usage:", usage);
 
     return res.toUIMessageStreamResponse();
   } catch (error) {
