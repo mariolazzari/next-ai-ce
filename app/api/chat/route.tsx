@@ -10,6 +10,9 @@ export async function POST(req: NextRequest) {
       messages: convertToModelMessages(messages),
     });
 
+    const usage = await result.usage;
+    console.log("Usage:", usage);
+
     return result.toUIMessageStreamResponse();
   } catch (error) {
     console.error("Error streaming response:", error);

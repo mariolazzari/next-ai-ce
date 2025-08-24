@@ -10,6 +10,10 @@ export default function Home() {
       label: "Stream Completions",
       href: "/ui/stream",
     },
+    {
+      label: "Chat Completions",
+      href: "/ui/chat",
+    },
   ];
 
   return (
