@@ -168,7 +168,7 @@ export async function POST(req: NextRequest) {
 }
 ```
 
-## Prompt
+## Chat
 
 - Each prompt is completly independent (incognito mode)
 - No memory
@@ -185,6 +185,44 @@ export async function POST(req: NextRequest) {
       model: openai("gpt-4.1-nano"),
       messages: convertToModelMessages(messages),
     });
+
+    return result.toUIMessageStreamResponse();
+  } catch (error) {
+    console.error("Error streaming response:", error);
+    return NextResponse.json("Internal Server Error", { status: 500 });
+  }
+}
+```
+
+## Prompt engineering
+
+Crafting instructions to get better outputs from AI model
+
+[OpenAI](https://platform.openai.com/docs/guides/prompt-engineering)
+[Antropic](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview)
+
+```tsx
+import { openai } from "@ai-sdk/openai";
+import { convertToModelMessages, streamText, UIMessage } from "ai";
+import { NextRequest, NextResponse } from "next/server";
+
+export async function POST(req: NextRequest) {
+  try {
+    const { messages }: { messages: UIMessage[] } = await req.json();
+    const result = streamText({
+      model: openai("gpt-4.1-nano"),
+      messages: [
+        {
+          role: "system",
+          content:
+            "You are a helpful coding assistant. Keep responses under 3 sentences and foucs on practical examples.",
+        },
+        ...convertToModelMessages(messages),
+      ],
+    });
+
+    const usage = await result.usage;
+    console.log("Usage:", usage);
 
     return result.toUIMessageStreamResponse();
   } catch (error) {
